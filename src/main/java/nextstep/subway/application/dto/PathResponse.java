@@ -10,6 +10,9 @@ public class PathResponse {
     private List<StationResponse> stations;
     private int distance;
 
+    public PathResponse() {
+    }
+
     public PathResponse(List<Station> stations, int distance) {
         this.stations = stations.stream()
             .map(station -> new StationResponse(station.getId(), station.getName()))

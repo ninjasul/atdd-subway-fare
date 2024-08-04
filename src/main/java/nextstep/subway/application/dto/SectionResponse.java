@@ -9,6 +9,9 @@ public class SectionResponse {
     private Long downStationId;
     private Integer distance;
 
+    public SectionResponse() {
+    }
+
     public SectionResponse(Long lineId, Long sectionId, Long upStationId, Long downStationId, Integer distance) {
         this.lineId = lineId;
         this.sectionId = sectionId;

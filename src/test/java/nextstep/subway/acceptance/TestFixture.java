@@ -101,6 +101,19 @@ public class TestFixture {
     }
 
 
+    public static ExtractableResponse<Response> addSection(SectionRequest request) {
+        return RestAssured
+            .given()
+            .log().all()
+            .body(request)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .post("/lines/" + request.getLineId() + "/sections")
+            .then()
+            .log().all()
+            .extract();
+    }
+
     public static ExtractableResponse<Response> addSection(Long lineId, Long upStationId, Long downStationId, int distance) {
         SectionRequest request = new SectionRequest(upStationId, downStationId, distance);
         return RestAssured
