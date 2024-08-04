@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nextstep.subway.application.dto.PathResponse;
+import nextstep.subway.domain.model.PathType;
 import nextstep.subway.domain.service.PathService;
 
 @RestController
@@ -19,8 +20,11 @@ public class PathController {
     }
 
     @GetMapping
-    public ResponseEntity<PathResponse> findPath(@RequestParam Long source, @RequestParam Long target) {
-        PathResponse pathResponse = pathService.findPath(source, target);
+    public ResponseEntity<PathResponse> findPath(
+        @RequestParam Long source,
+        @RequestParam Long target,
+        @RequestParam(defaultValue = "DISTANCE") PathType type) {
+        PathResponse pathResponse = pathService.findPath(source, target, type);
         return ResponseEntity.ok(pathResponse);
     }
 }

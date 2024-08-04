@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import nextstep.subway.application.dto.PathResponse;
 import nextstep.subway.domain.model.Line;
 import nextstep.subway.domain.model.Path;
+import nextstep.subway.domain.model.PathType;
 import nextstep.subway.domain.model.Station;
 import nextstep.subway.domain.repository.LineRepository;
 import nextstep.subway.domain.repository.StationRepository;
@@ -24,7 +25,7 @@ public class DefaultPathService implements PathService {
         this.lineRepository = lineRepository;
     }
 
-    public PathResponse findPath(Long sourceId, Long targetId) {
+    public PathResponse findPath(Long sourceId, Long targetId, PathType pathType) {
         Station source = findStationOrElseThrow(sourceId);
         Station target = findStationOrElseThrow(targetId);
 
