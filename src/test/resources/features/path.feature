@@ -10,15 +10,15 @@ Feature: 지하철 경로 검색
       | 양재역   |
       | 논현역   |
     And 지하철 노선을 생성 요청하고
-      | name     | color  | startStation | endStation | distance |
-      | 신분당선 | red    | 신논현역     | 강남역     | 11       |
-      | 2호선    | green  | 교대역       | 강남역     | 7        |
-      | 3호선    | orange | 교대역       | 남부터미널역 | 3       |
+      | name     | color  | startStation | endStation | distance | duration |
+      | 신분당선 | red    | 신논현역       | 강남역     | 11       | 22        |
+      | 2호선    | green  | 교대역       | 강남역     | 7        | 14        |
+      | 3호선    | orange | 교대역       | 남부터미널역     | 3       | 6       |
     And 구간을 추가 요청하고
-      | line     | upStation | downStation | distance |
-      | 2호선    | 강남역     | 역삼역      | 13       |
-      | 3호선    | 남부터미널역 | 양재역     | 5       |
-      | 신분당선 | 강남역     | 양재역      | 10       |
+      | line     | upStation | downStation | distance | duration |
+      | 2호선    | 강남역     | 역삼역      | 13       | 26              |
+      | 3호선    | 남부터미널역 | 양재역     | 5       | 10                 |
+      | 신분당선 | 강남역     | 양재역      | 10       | 20                |
 
   Scenario: 같은 노선에 존재하는 두 역을 조회하는 경우 경로가 정상적으로 조회된다
     When "교대역"과 "역삼역"의 경로를 조회하면
@@ -55,3 +55,9 @@ Feature: 지하철 경로 검색
   Scenario: 존재하지 않는 도착역을 조회하는 경우 예외가 발생한다
     When 도착역이 "999"인 경로를 조회하면
     Then 예외가 발생한다
+
+  Scenario: 출발역에서 도착역까지의 최소 시간 기준으로 경로 조회를 요청하면 경로가 정상적으로 조회된다.
+    When 출발역에서 도착역까지의 최소 시간 기준으로 경로 조회를 요청하면
+      | source | target | type     |
+      | 교대역 | 판교역 | DURATION |
+    Then 최소 시간 기준으로 경로가 정상적으로 조회된다.
