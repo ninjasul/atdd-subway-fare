@@ -15,6 +15,9 @@ public class SectionResponse {
     }
 
 
+    public SectionResponse() {
+    }
+
     public SectionResponse(Long lineId, Long sectionId, Long upStationId, Long downStationId, Integer distance) {
         this.lineId = lineId;
         this.sectionId = sectionId;
