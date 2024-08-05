@@ -1,6 +1,6 @@
 package nextstep.subway.application;
 
-import static nextstep.subway.application.DefaultPathFinder.*;
+import static nextstep.subway.application.DistancePathFinder.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import nextstep.subway.domain.model.Section;
 import nextstep.subway.domain.model.Station;
 
 class DefaultPathFinderTest {
-    private DefaultPathFinder pathFinder;
+    private DistancePathFinder pathFinder;
 
     private Station 강남역;
     private Station 역삼역;
@@ -46,7 +46,7 @@ class DefaultPathFinderTest {
         신분당선.addSection(new Section(신분당선, 강남역, 양재역, 10));
 
         List<Line> lines = Arrays.asList(이호선, 삼호선, 신분당선);
-        pathFinder = new DefaultPathFinder(lines);
+        pathFinder = new DistancePathFinder(lines);
     }
 
     @Test
@@ -57,7 +57,7 @@ class DefaultPathFinderTest {
 
         // then
         assertThat(path.getStations()).containsExactly(교대역, 강남역, 역삼역);
-        assertThat(path.getDistance()).isEqualTo(12);
+        assertThat(path.getWeight()).isEqualTo(12);
     }
 
     @Test
@@ -68,7 +68,7 @@ class DefaultPathFinderTest {
 
         // then
         assertThat(path.getStations()).containsExactly(교대역, 강남역, 신논현역);
-        assertThat(path.getDistance()).isEqualTo(18);
+        assertThat(path.getWeight()).isEqualTo(18);
     }
 
     @Test
@@ -83,7 +83,7 @@ class DefaultPathFinderTest {
 
         // then
         assertThat(path.getStations()).containsExactly(신논현역, 강남역, 교대역, 남부터미널역);
-        assertThat(path.getDistance()).isEqualTo(21);
+        assertThat(path.getWeight()).isEqualTo(21);
     }
 
     @Test
@@ -94,7 +94,7 @@ class DefaultPathFinderTest {
 
         // then
         assertThat(path.getStations()).containsExactly(강남역);
-        assertThat(path.getDistance()).isEqualTo(0);
+        assertThat(path.getWeight()).isEqualTo(0);
     }
 
     @Test

@@ -32,13 +32,14 @@ public class Section {
     @Embedded
     private SectionDistance distance;
 
-
+    @Embedded
+    private SectionDuration duration;
 
     protected Section() {
     }
 
     public Section(Line line, Station upStation, Station downStation, Integer distance) {
-        this(null, line, upStation, downStation, distance);
+        this(null, line, upStation, downStation, distance, 0);
     }
 
     public Section(
@@ -48,11 +49,23 @@ public class Section {
         Station downStation,
         Integer distance
     ) {
+        this(id, line, upStation, downStation, distance, 0);
+    }
+
+    public Section(
+        Long id,
+        Line line,
+        Station upStation,
+        Station downStation,
+        Integer distance,
+        Integer duration
+    ) {
         this.id = id;
         this.line = line;
         this.upStation = upStation;
         this.downStation = downStation;
         this.distance = new SectionDistance(distance);
+        this.duration = new SectionDuration(duration);
     }
 
     public static SectionBuilder builder() {
@@ -93,6 +106,14 @@ public class Section {
 
     public Integer getDistance() {
         return distance.getValue();
+    }
+
+    public Integer getDuration() {
+        if (duration == null) {
+            return 0;
+        }
+
+        return duration.getValue();
     }
 
     public void updateLine(Line line) {
@@ -156,6 +177,7 @@ public class Section {
         private Station upStation;
         private Station downStation;
         private Integer distance;
+        private Integer duration;
 
         public SectionBuilder() {
         }
@@ -185,8 +207,13 @@ public class Section {
             return this;
         }
 
+        public SectionBuilder duration(Integer duration) {
+            this.duration = duration;
+            return this;
+        }
+
         public Section build() {
-            return new Section(this.id, this.line, this.upStation, this.downStation, this.distance);
+            return new Section(this.id, this.line, this.upStation, this.downStation, this.distance, this.duration);
         }
     }
 }

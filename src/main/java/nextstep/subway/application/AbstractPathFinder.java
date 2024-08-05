@@ -13,13 +13,13 @@ import nextstep.subway.domain.model.Section;
 import nextstep.subway.domain.model.Station;
 import nextstep.subway.domain.service.PathFinder;
 
-public class DefaultPathFinder implements PathFinder {
+public abstract class AbstractPathFinder implements PathFinder {
     public static final String PATH_NOT_FOUND_ERROR_MESSAGE = "경로를 찾을 수 없습니다.";
 
-    private final WeightedMultigraph<Station, DefaultWeightedEdge> graph;
-    private final DijkstraShortestPath<Station, DefaultWeightedEdge> dijkstraShortestPath;
+    protected final WeightedMultigraph<Station, DefaultWeightedEdge> graph;
+    protected final DijkstraShortestPath<Station, DefaultWeightedEdge> dijkstraShortestPath;
 
-    public DefaultPathFinder(List<Line> lines) {
+    protected AbstractPathFinder(List<Line> lines) {
         this.graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
         initializeGraph(lines);
         this.dijkstraShortestPath = new DijkstraShortestPath<>(graph);
@@ -33,17 +33,13 @@ public class DefaultPathFinder implements PathFinder {
         line.getOrderedUnmodifiableSections().forEach(this::addSectionToGraph);
     }
 
-    private void addSectionToGraph(Section section) {
-        graph.addVertex(section.getUpStation());
-        graph.addVertex(section.getDownStation());
-        DefaultWeightedEdge edge = graph.addEdge(section.getUpStation(), section.getDownStation());
-        graph.setEdgeWeight(edge, section.getDistance());
-    }
+    protected abstract void addSectionToGraph(Section section);
 
+    @Override
     public Path findPath(Station source, Station target) {
         GraphPath<Station, DefaultWeightedEdge> path;
         try {
-            path = this.dijkstraShortestPath.getPath(source, target);
+            path = dijkstraShortestPath.getPath(source, target);
         } catch (Exception e) {
             throw new IllegalStateException(PATH_NOT_FOUND_ERROR_MESSAGE);
         }
@@ -53,8 +49,7 @@ public class DefaultPathFinder implements PathFinder {
         }
 
         List<Station> stations = path.getVertexList();
-        int distance = (int)path.getWeight();
-
-        return new Path(stations, distance);
+        int weight = (int)path.getWeight();
+        return new Path(stations, weight);
     }
 }
