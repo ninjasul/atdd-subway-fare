@@ -15,8 +15,8 @@ import nextstep.subway.domain.model.Path;
 import nextstep.subway.domain.model.Section;
 import nextstep.subway.domain.model.Station;
 
-class DefaultPathFinderTest {
-    private DistancePathFinder pathFinder;
+class DistancePathFinderTest {
+    private DistancePathFinder distancePathFinder;
 
     private Station 강남역;
     private Station 역삼역;
@@ -46,14 +46,14 @@ class DefaultPathFinderTest {
         신분당선.addSection(new Section(신분당선, 강남역, 양재역, 10));
 
         List<Line> lines = Arrays.asList(이호선, 삼호선, 신분당선);
-        pathFinder = new DistancePathFinder(lines);
+        distancePathFinder = new DistancePathFinder(lines);
     }
 
     @Test
     @DisplayName("같은 노선에 존재하는 두 역을 조회하는 경우 경로가 정상적으로 조회된다")
     void findPathInSameLine() {
         // given & when
-        Path path = pathFinder.findPath(교대역, 역삼역);
+        Path path = distancePathFinder.findPath(교대역, 역삼역);
 
         // then
         assertThat(path.getStations()).containsExactly(교대역, 강남역, 역삼역);
@@ -64,7 +64,7 @@ class DefaultPathFinderTest {
     @DisplayName("출발역에서 한번 환승을 해야 도착역에 다다를 수 있는 경우 경로가 정상적으로 조회된다")
     void findPathWithOneTransfer() {
         // given & when
-        Path path = pathFinder.findPath(교대역, 신논현역);
+        Path path = distancePathFinder.findPath(교대역, 신논현역);
 
         // then
         assertThat(path.getStations()).containsExactly(교대역, 강남역, 신논현역);
@@ -79,7 +79,7 @@ class DefaultPathFinderTest {
         Station target = 남부터미널역;
 
         // when
-        Path path = pathFinder.findPath(source, target);
+        Path path = distancePathFinder.findPath(source, target);
 
         // then
         assertThat(path.getStations()).containsExactly(신논현역, 강남역, 교대역, 남부터미널역);
@@ -90,7 +90,7 @@ class DefaultPathFinderTest {
     @DisplayName("출발역과 도착역이 같은 경우 역이 하나만 조회된다.")
     void findPathWhenSourceAndTargetAreSame() {
         // given & when
-        Path path = pathFinder.findPath(강남역, 강남역);
+        Path path = distancePathFinder.findPath(강남역, 강남역);
 
         // then
         assertThat(path.getStations()).containsExactly(강남역);
@@ -101,7 +101,7 @@ class DefaultPathFinderTest {
     @DisplayName("출발역과 도착역이 연결이 되어 있지 않은 경우 예외가 발생한다")
     void findPathWhenSourceAndTargetAreNotConnected() {
         // given & when & then
-        assertThatThrownBy(() -> pathFinder.findPath(강남역, new Station("잠실역")))
+        assertThatThrownBy(() -> distancePathFinder.findPath(강남역, new Station("잠실역")))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
     }
@@ -110,7 +110,7 @@ class DefaultPathFinderTest {
     @DisplayName("조회하려는 출발역이 null인 경우 예외가 발생한다")
     void findPathWhenSourceStationIsNull() {
         // given & when & then
-        assertThatThrownBy(() -> pathFinder.findPath(null, 강남역))
+        assertThatThrownBy(() -> distancePathFinder.findPath(null, 강남역))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
     }
@@ -119,7 +119,7 @@ class DefaultPathFinderTest {
     @DisplayName("존재하지 않은 출발역을 조회하는 경우 예외가 발생한다")
     void findPathWhenSourceStationNotFound() {
         // given & when & then
-        assertThatThrownBy(() -> pathFinder.findPath(new Station("없는역"), 강남역))
+        assertThatThrownBy(() -> distancePathFinder.findPath(new Station("없는역"), 강남역))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
     }
@@ -128,7 +128,7 @@ class DefaultPathFinderTest {
     @DisplayName("조회하려는 도착역이 null인 경우 예외가 발생한다")
     void findPathWhenTargetStationIsNull() {
         // given & when & then
-        assertThatThrownBy(() -> pathFinder.findPath(강남역, null))
+        assertThatThrownBy(() -> distancePathFinder.findPath(강남역, null))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
     }
@@ -137,7 +137,7 @@ class DefaultPathFinderTest {
     @DisplayName("존재하지 않는 도착역을 조회하는 경우 예외가 발생한다")
     void findPathWhenTargetStationNotFound() {
         // given & when & then
-        assertThatThrownBy(() -> pathFinder.findPath(강남역, new Station("없는역")))
+        assertThatThrownBy(() -> distancePathFinder.findPath(강남역, new Station("없는역")))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
     }
