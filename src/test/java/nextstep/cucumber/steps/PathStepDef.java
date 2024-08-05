@@ -141,6 +141,21 @@ public class PathStepDef implements En {
             context.response = response;
         });
 
+        When("출발역에서 도착역까지의 최소 거리 기준으로 경로 조회를 요청하면", (DataTable table) -> {
+            List<Map<String, String>> params = table.asMaps(String.class, String.class);
+            for (Map<String, String> param : params) {
+                Long sourceId = context.store.get(param.get("source"));
+                Long targetId = context.store.get(param.get("target"));
+
+                if (sourceId == null || targetId == null) {
+                    throw new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE);
+                }
+
+                ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, targetId, PathType.of(param.get("type")));
+                context.response = response;
+            }
+        });
+
         When("출발역에서 도착역까지의 최소 시간 기준으로 경로 조회를 요청하면", (DataTable table) -> {
             List<Map<String, String>> params = table.asMaps(String.class, String.class);
             for (Map<String, String> param : params) {
@@ -151,7 +166,7 @@ public class PathStepDef implements En {
                     throw new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE);
                 }
 
-                ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, targetId, PathType.DURATION);
+                ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, targetId, PathType.of(param.get("type")));
                 context.response = response;
             }
         });
@@ -163,6 +178,11 @@ public class PathStepDef implements En {
         Then("역이 하나만 조회된다", () -> {
             assertThat(context.response.statusCode()).isEqualTo(HttpStatus.OK.value());
             assertThat(context.response.jsonPath().getList("stations.id", Long.class)).hasSize(1);
+        });
+
+        Then("최소 거리 기준으로 경로가 정상적으로 조회된다", () -> {
+            assertThat(context.response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertThat(context.response.jsonPath().getInt("distance")).isEqualTo(8);
         });
 
         Then("최소 시간 기준으로 경로가 정상적으로 조회된다", () -> {
