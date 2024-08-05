@@ -68,7 +68,7 @@ public class LineCommandServiceWithoutMockTest {
             String lineName = "2호선";
             String lineColor = "bg-red-600";
 
-            LineRequest lineRequest = new LineRequest(lineName, lineColor, 1L, 2L, 10);
+            LineRequest lineRequest = new LineRequest(lineName, lineColor, 1L, 2L, 10, 20);
 
             // when
             LineResponse response = lineCommandService.saveLine(lineRequest);
@@ -88,7 +88,7 @@ public class LineCommandServiceWithoutMockTest {
 
             stationRepository.save(gangnamStation);
 
-            LineRequest lineRequest = new LineRequest("2호선", "bg-red-600", 1L, 2L, 10);
+            LineRequest lineRequest = new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20);
 
             // when & then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -107,7 +107,7 @@ public class LineCommandServiceWithoutMockTest {
             Line line = new Line(1L, "2호선", "bg-red-600");
             lineRepository.save(line);
 
-            LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10);
+            LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10, 20);
 
             // when
             lineCommandService.updateLine(1L, updateRequest);
@@ -123,7 +123,7 @@ public class LineCommandServiceWithoutMockTest {
         @DisplayName("존재하지 않는 지하철 노선을 수정할 때 실패한다")
         void updateNonExistentLine() {
             // given
-            LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10);
+            LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10, 20);
 
             // when // then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -140,7 +140,7 @@ public class LineCommandServiceWithoutMockTest {
 
             lineRepository.deleteById(1L);
 
-            LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10);
+            LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10, 20);
 
             // when // then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -202,7 +202,7 @@ public class LineCommandServiceWithoutMockTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10);
+            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10, 20);
             line.addSection(initialSection);
 
             lineRepository.save(line);
@@ -210,7 +210,7 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(yeoksamStation);
             stationRepository.save(seolleungStation);
 
-            SectionRequest sectionRequest = new SectionRequest(2L, 3L, 8);
+            SectionRequest sectionRequest = new SectionRequest(2L, 3L, 8, 8);
 
             // when
             SectionResponse response = lineCommandService.addSection(1L, sectionRequest);
@@ -233,7 +233,7 @@ public class LineCommandServiceWithoutMockTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10);
+            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10, 20);
             line.addSection(initialSection);
 
             lineRepository.save(line);
@@ -241,7 +241,7 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(yeoksamStation);
             stationRepository.save(seolleungStation);
 
-            SectionRequest sectionRequest = new SectionRequest(1L, 2L, 5);
+            SectionRequest sectionRequest = new SectionRequest(1L, 2L, 5, 5);
 
             // when
             SectionResponse response = lineCommandService.addSection(1L, sectionRequest);
@@ -263,13 +263,13 @@ public class LineCommandServiceWithoutMockTest {
             Station gangnamStation = new Station(1L, "강남역");
             Station yeoksamStation = new Station(2L, "역삼역");
 
-            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10);
+            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10, 20);
             line.addSection(initialSection);
             lineRepository.save(line);
             stationRepository.save(gangnamStation);
             stationRepository.save(yeoksamStation);
 
-            SectionRequest sectionRequest = new SectionRequest(999L, 1L, 5);
+            SectionRequest sectionRequest = new SectionRequest(999L, 1L, 5, 5);
 
             // when // then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -286,7 +286,7 @@ public class LineCommandServiceWithoutMockTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10);
+            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10, 20);
             line.addSection(initialSection);
 
             lineRepository.save(line);
@@ -294,7 +294,7 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(yeoksamStation);
             stationRepository.save(seolleungStation);
 
-            SectionRequest sectionRequest = new SectionRequest(1L, 2L, 15);
+            SectionRequest sectionRequest = new SectionRequest(1L, 2L, 15, 15);
 
             // when // then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -311,7 +311,7 @@ public class LineCommandServiceWithoutMockTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10);
+            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10, 20);
             line.addSection(initialSection);
 
             lineRepository.save(line);
@@ -319,7 +319,7 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(yeoksamStation);
             stationRepository.save(seolleungStation);
 
-            SectionRequest sectionRequest = new SectionRequest(2L, 3L, 8);
+            SectionRequest sectionRequest = new SectionRequest(2L, 3L, 8, 8);
 
             // when
             SectionResponse response = lineCommandService.addSection(1L, sectionRequest);
@@ -341,13 +341,13 @@ public class LineCommandServiceWithoutMockTest {
             Station gangnamStation = new Station(1L, "강남역");
             Station yeoksamStation = new Station(2L, "역삼역");
 
-            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10);
+            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10, 20);
             line.addSection(initialSection);
             lineRepository.save(line);
             stationRepository.save(gangnamStation);
             stationRepository.save(yeoksamStation);
 
-            SectionRequest sectionRequest = new SectionRequest(1L, 999L, 5);
+            SectionRequest sectionRequest = new SectionRequest(1L, 999L, 5, 5);
 
             // when // then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -364,7 +364,7 @@ public class LineCommandServiceWithoutMockTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10);
+            Section initialSection = new Section(line, gangnamStation, seolleungStation, 10, 20);
             line.addSection(initialSection);
 
             lineRepository.save(line);
@@ -372,7 +372,7 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(yeoksamStation);
             stationRepository.save(seolleungStation);
 
-            SectionRequest sectionRequest = new SectionRequest(2L, 3L, 15);
+            SectionRequest sectionRequest = new SectionRequest(2L, 3L, 15, 30);
 
             // when // then
             assertThatExceptionOfType(IllegalArgumentException.class)
@@ -390,9 +390,9 @@ public class LineCommandServiceWithoutMockTest {
             Station seolleungStation = new Station(3L, "선릉역");
             Station samsungStation = new Station(4L, "삼성역");
 
-            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10);
+            Section initialSection = new Section(line, gangnamStation, yeoksamStation, 10, 20);
             line.addSection(initialSection);
-            Section additionalSection = new Section(line, yeoksamStation, seolleungStation, 8);
+            Section additionalSection = new Section(line, yeoksamStation, seolleungStation, 8, 16);
             line.addSection(additionalSection);
 
             lineRepository.save(line);
@@ -401,7 +401,7 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(seolleungStation);
             stationRepository.save(samsungStation);
 
-            SectionRequest sectionRequest = new SectionRequest(3L, 4L, 7);
+            SectionRequest sectionRequest = new SectionRequest(3L, 4L, 7, 14);
 
             // when
             SectionResponse response = lineCommandService.addSection(1L, sectionRequest);
@@ -410,6 +410,7 @@ public class LineCommandServiceWithoutMockTest {
             assertThat(response.getUpStationId()).isEqualTo(3L);
             assertThat(response.getDownStationId()).isEqualTo(4L);
             assertThat(response.getDistance()).isEqualTo(7);
+            assertThat(response.getDuration()).isEqualTo(14);
 
             Line updatedLine = lineRepository.findById(1L).orElseThrow();
             assertThat(updatedLine.getUnmodifiableSections()).hasSize(3);
@@ -446,8 +447,8 @@ public class LineCommandServiceWithoutMockTest {
             stationRepository.save(seolleungStation);
 
             line = new Line(1L, "2호선", "bg-red-600");
-            initialSection = new Section(line, gangnamStation, yeoksamStation, 10);
-            additionalSection = new Section(line, yeoksamStation, seolleungStation, 8);
+            initialSection = new Section(line, gangnamStation, yeoksamStation, 10, 20);
+            additionalSection = new Section(line, yeoksamStation, seolleungStation, 8, 16);
 
             line.addSection(initialSection);
             line.addSection(additionalSection);

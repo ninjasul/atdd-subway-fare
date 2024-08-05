@@ -23,8 +23,8 @@ class AddSectionAfterLastDownStationStrategyTest {
 
             Station gangnamStation = new Station(1L, "강남역");
             Station yeoksamStation = new Station(2L, "역삼역");
-            Section existingSection = new Section(null, null, gangnamStation, yeoksamStation, 10);
-            Section newSection = new Section(null, null, yeoksamStation, new Station(3L, "선릉역"), 8);
+            Section existingSection = new Section(null, null, gangnamStation, yeoksamStation, 10, 20);
+            Section newSection = new Section(null, null, yeoksamStation, new Station(3L, "선릉역"), 8, 16);
 
             Line line = new Line("2호선", "green");
             line.addSection(existingSection);

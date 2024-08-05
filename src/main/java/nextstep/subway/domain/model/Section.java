@@ -38,18 +38,13 @@ public class Section {
     protected Section() {
     }
 
-    public Section(Line line, Station upStation, Station downStation, Integer distance) {
-        this(null, line, upStation, downStation, distance, 0);
+    public Section(Line line, Station upStation, Station downStation, Integer weight) {
+        this(null, line, upStation, downStation, weight, weight);
     }
 
-    public Section(
-        Long id,
-        Line line,
-        Station upStation,
-        Station downStation,
-        Integer distance
-    ) {
-        this(id, line, upStation, downStation, distance, 0);
+
+    public Section(Line line, Station upStation, Station downStation, Integer distance, Integer duration) {
+        this(null, line, upStation, downStation, distance, duration);
     }
 
     public Section(

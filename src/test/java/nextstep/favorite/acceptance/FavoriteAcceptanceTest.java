@@ -43,7 +43,7 @@ class FavoriteAcceptanceTest extends AcceptanceTest {
         교대역 = createStationAndGetId("교대역");
         양재역 = createStationAndGetId("양재역");
 
-        createLine(new LineRequest("2호선", "green", 교대역, 양재역, 10));
+        createLine(new LineRequest("2호선", "green", 교대역, 양재역, 10, 10));
     }
 
     @Test

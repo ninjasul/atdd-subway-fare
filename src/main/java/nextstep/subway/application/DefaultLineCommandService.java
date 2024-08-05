@@ -45,6 +45,7 @@ public class DefaultLineCommandService implements LineCommandService {
             .upStation(upStation)
             .downStation(downStation)
             .distance(lineRequest.getDistance())
+            .duration(lineRequest.getDuration())
             .build();
 
         Line line = new Line(
@@ -83,6 +84,7 @@ public class DefaultLineCommandService implements LineCommandService {
             .upStation(upStation)
             .downStation(downStation)
             .distance(sectionRequest.getDistance())
+            .duration(sectionRequest.getDuration())
             .build();
 
         SectionAdditionStrategy strategy = sectionAdditionStrategyFactory.getStrategy(line, section);

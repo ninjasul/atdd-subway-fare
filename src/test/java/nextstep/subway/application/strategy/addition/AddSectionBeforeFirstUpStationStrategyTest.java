@@ -26,8 +26,8 @@ class AddSectionBeforeFirstUpStationStrategyTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section existingSection = new Section(null, null, yeoksamStation, seolleungStation, 10);
-            Section newSection = new Section(null, null, gangnamStation, yeoksamStation, 8);
+            Section existingSection = new Section(null, null, yeoksamStation, seolleungStation, 10, 20);
+            Section newSection = new Section(null, null, gangnamStation, yeoksamStation, 8, 16);
 
             Line line = new Line("2호선", "green");
             line.addSection(existingSection);
@@ -54,10 +54,10 @@ class AddSectionBeforeFirstUpStationStrategyTest {
             Station yeoksamStation = new Station(2L, "역삼역");
             Station seolleungStation = new Station(3L, "선릉역");
 
-            Section existingSection = new Section(line, yeoksamStation, seolleungStation, 10);
+            Section existingSection = new Section(line, yeoksamStation, seolleungStation, 10, 20);
             line.addSection(existingSection);
 
-            Section newSection = new Section(line, gangnamStation, yeoksamStation, 8);
+            Section newSection = new Section(line, gangnamStation, yeoksamStation, 8, 16);
 
             // when
             strategy.addSection(line, newSection);
@@ -78,12 +78,12 @@ class AddSectionBeforeFirstUpStationStrategyTest {
             Station seolleungStation = new Station(3L, "선릉역");
             Station samsungStation = new Station(4L, "삼성역");
 
-            Section firstSection = new Section(line, yeoksamStation, seolleungStation, 10);
-            Section secondSection = new Section(line, seolleungStation, samsungStation, 10);
+            Section firstSection = new Section(line, yeoksamStation, seolleungStation, 10, 20);
+            Section secondSection = new Section(line, seolleungStation, samsungStation, 10, 20);
             line.addSection(firstSection);
             line.addSection(secondSection);
 
-            Section newSection = new Section(line, gangnamStation, yeoksamStation, 8);
+            Section newSection = new Section(line, gangnamStation, yeoksamStation, 8, 16);
 
             // when
             strategy.addSection(line, newSection);

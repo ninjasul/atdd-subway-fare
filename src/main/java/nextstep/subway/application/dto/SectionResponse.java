@@ -8,9 +8,12 @@ public class SectionResponse {
     private Long upStationId;
     private Long downStationId;
     private Integer distance;
+    private Integer duration;
+
 
     public SectionResponse() {
     }
+
 
     public SectionResponse(Long lineId, Long sectionId, Long upStationId, Long downStationId, Integer distance) {
         this.lineId = lineId;
@@ -18,6 +21,22 @@ public class SectionResponse {
         this.upStationId = upStationId;
         this.downStationId = downStationId;
         this.distance = distance;
+    }
+
+    public SectionResponse(
+        Long lineId,
+        Long sectionId,
+        Long upStationId,
+        Long downStationId,
+        Integer distance,
+        Integer duration
+    ) {
+        this.lineId = lineId;
+        this.sectionId = sectionId;
+        this.upStationId = upStationId;
+        this.downStationId = downStationId;
+        this.distance = distance;
+        this.duration = duration;
     }
 
     public static SectionResponseBuilder builder() {
@@ -44,6 +63,10 @@ public class SectionResponse {
         return distance;
     }
 
+    public Integer getDuration() {
+        return duration;
+    }
+
     public static SectionResponse from(Section section) {
         return new SectionResponseBuilder()
             .lineId(section.getLine().getId())
@@ -60,6 +83,7 @@ public class SectionResponse {
         private Long upStationId;
         private Long downStationId;
         private Integer distance;
+        private Integer duration;
 
         SectionResponseBuilder() {
         }
@@ -90,8 +114,13 @@ public class SectionResponse {
             return this;
         }
 
+        public SectionResponseBuilder duration(Integer duration) {
+            this.duration = duration;
+            return this;
+        }
+
         public SectionResponse build() {
-            return new SectionResponse(this.lineId, this.sectionId, this.upStationId, this.downStationId, this.distance);
+            return new SectionResponse(this.lineId, this.sectionId, this.upStationId, this.downStationId, this.distance, this.duration);
         }
     }
 }

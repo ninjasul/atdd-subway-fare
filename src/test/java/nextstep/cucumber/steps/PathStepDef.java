@@ -18,8 +18,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import nextstep.subway.acceptance.TestFixture;
 import nextstep.subway.application.dto.LineRequest;
-import nextstep.subway.application.dto.SectionRequest;
-import nextstep.subway.application.dto.StationRequest;
+import nextstep.subway.domain.model.PathType;
 import nextstep.utils.AcceptanceTest;
 
 
@@ -58,7 +57,8 @@ public class PathStepDef implements En {
                     line.get("color"),
                     startStationId,
                     endStationId,
-                    Integer.parseInt(line.get("distance"))
+                    Integer.parseInt(line.get("distance")),
+                    Integer.parseInt(line.get("duration"))
                 );
                 ExtractableResponse<Response> response = TestFixture.createLine(lineRequest);
                 Long lineId = response.jsonPath().getLong("id");
@@ -83,8 +83,9 @@ public class PathStepDef implements En {
                 }
 
                 int distance = Integer.parseInt(section.get("distance"));
+                int duration = Integer.parseInt(section.get("duration"));
 
-                TestFixture.addSection(lineId, upStationId, downStationId, distance);
+                TestFixture.addSection(lineId, upStationId, downStationId, distance, duration);
             }
         });
 
@@ -96,30 +97,35 @@ public class PathStepDef implements En {
                 throw new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE);
             }
 
-            ExtractableResponse<Response> response = TestFixture.getPaths(startStationId, endStationId);
+            ExtractableResponse<Response> response = TestFixture.getPaths(startStationId, endStationId,
+                PathType.DISTANCE);
             context.response = response;
         });
 
 
         When("출발역이 null인 경로를 조회하면", () -> {
-            ExtractableResponse<Response> response = TestFixture.getPaths(null, context.store.get("강남역"));
+            ExtractableResponse<Response> response = TestFixture.getPaths(null, context.store.get("강남역"),
+                PathType.DISTANCE);
             context.response = response;
         });
 
         When("출발역이 {string}인 경로를 조회하면", (String source) -> {
             Long sourceId = source.equals("null") ? null : Long.parseLong(source);
-            ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, context.store.get("강남역"));
+            ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, context.store.get("강남역"),
+                PathType.DISTANCE);
             context.response = response;
         });
 
         When("도착역이 null인 경로를 조회하면", () -> {
-            ExtractableResponse<Response> response = TestFixture.getPaths(context.store.get("강남역"), null);
+            ExtractableResponse<Response> response = TestFixture.getPaths(context.store.get("강남역"), null,
+                PathType.DISTANCE);
             context.response = response;
         });
 
         When("도착역이 {string}인 경로를 조회하면", (String target) -> {
             Long targetId = target.equals("null") ? null : Long.parseLong(target);
-            ExtractableResponse<Response> response = TestFixture.getPaths(context.store.get("강남역"), targetId);
+            ExtractableResponse<Response> response = TestFixture.getPaths(context.store.get("강남역"), targetId,
+                PathType.DISTANCE);
             context.response = response;
         });
 

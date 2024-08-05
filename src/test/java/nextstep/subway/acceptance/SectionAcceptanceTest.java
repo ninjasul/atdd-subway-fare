@@ -31,11 +31,11 @@ class SectionAcceptanceTest {
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 8);
+            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 8, 16);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -55,13 +55,13 @@ class SectionAcceptanceTest {
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
-            addSection(lineId, gangnamStationId, seolleungStationId, 8);
+            addSection(lineId, gangnamStationId, seolleungStationId, 8, 16);
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 7);
+            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 7, 14);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -81,15 +81,15 @@ class SectionAcceptanceTest {
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
-            addSection(lineId, yeoksamStationId, samsungStationId, 8);
+            addSection(lineId, yeoksamStationId, samsungStationId, 8, 16);
 
             getLine(lineId);
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 7);
+            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 7, 14);
 
             getLine(lineId);
 
@@ -111,13 +111,13 @@ class SectionAcceptanceTest {
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
-            addSection(lineId, gangnamStationId, seolleungStationId, 8);
+            addSection(lineId, gangnamStationId, seolleungStationId, 8, 16);
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, yeoksamStationId, 7);
+            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, yeoksamStationId, 7, 14);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -135,11 +135,11 @@ class SectionAcceptanceTest {
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, 999L, seolleungStationId, 8);
+            ExtractableResponse<Response> response = addSection(lineId, 999L, seolleungStationId, 8, 16);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -152,11 +152,11 @@ class SectionAcceptanceTest {
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, seolleungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, seolleungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, yeoksamStationId, 15);
+            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, yeoksamStationId, 15, 30);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -171,13 +171,13 @@ class SectionAcceptanceTest {
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, samsungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
-            addSection(lineId, yeoksamStationId, samsungStationId, 8);
+            addSection(lineId, yeoksamStationId, samsungStationId, 8, 16);
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, seolleungStationId, samsungStationId, 7);
+            ExtractableResponse<Response> response = addSection(lineId, seolleungStationId, samsungStationId, 7, 14);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -194,11 +194,11 @@ class SectionAcceptanceTest {
             // given
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, 999L, 8);
+            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, 999L, 8, 16);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -211,11 +211,11 @@ class SectionAcceptanceTest {
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, seolleungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, seolleungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 15);
+            ExtractableResponse<Response> response = addSection(lineId, yeoksamStationId, seolleungStationId, 15, 30);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -230,13 +230,13 @@ class SectionAcceptanceTest {
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
-            addSection(lineId, yeoksamStationId, seolleungStationId, 8);
+            addSection(lineId, yeoksamStationId, seolleungStationId, 8, 16);
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, seolleungStationId, samsungStationId, 7);
+            ExtractableResponse<Response> response = addSection(lineId, seolleungStationId, samsungStationId, 7, 14);
 
             // then
             ExtractableResponse<Response> lineResponse = getLine(lineId);
@@ -255,13 +255,13 @@ class SectionAcceptanceTest {
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", yeoksamStationId, seolleungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", yeoksamStationId, seolleungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
-            addSection(lineId, seolleungStationId, samsungStationId, 8);
+            addSection(lineId, seolleungStationId, samsungStationId, 8, 16);
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, yeoksamStationId, 7);
+            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, yeoksamStationId, 7, 14);
 
             // then
             ExtractableResponse<Response> lineResponse = getLine(lineId);
@@ -277,11 +277,11 @@ class SectionAcceptanceTest {
             // given
             Long gangnamStationId = createStationAndGetId("강남역");
             Long seolleungStationId = createStationAndGetId("선릉역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, seolleungStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, seolleungStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, seolleungStationId, 5);
+            ExtractableResponse<Response> response = addSection(lineId, gangnamStationId, seolleungStationId, 5, 10);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -295,11 +295,11 @@ class SectionAcceptanceTest {
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
             Long samsungStationId = createStationAndGetId("삼성역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
-            ExtractableResponse<Response> response = addSection(lineId, samsungStationId, seolleungStationId, 5);
+            ExtractableResponse<Response> response = addSection(lineId, samsungStationId, seolleungStationId, 5, 10);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -318,9 +318,9 @@ class SectionAcceptanceTest {
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
-            addSection(lineId, yeoksamStationId, seolleungStationId, 8);
+            addSection(lineId, yeoksamStationId, seolleungStationId, 8, 16);
 
             // when
             ExtractableResponse<Response> response = removeSection(lineId, gangnamStationId);
@@ -344,9 +344,9 @@ class SectionAcceptanceTest {
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
-            addSection(lineId, yeoksamStationId, seolleungStationId, 8);
+            addSection(lineId, yeoksamStationId, seolleungStationId, 8, 16);
 
             // when
             ExtractableResponse<Response> response = removeSection(lineId, seolleungStationId);
@@ -363,9 +363,9 @@ class SectionAcceptanceTest {
             Long yeoksamStationId = createStationAndGetId("역삼역");
             Long seolleungStationId = createStationAndGetId("선릉역");
 
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
-            addSection(lineId, yeoksamStationId, seolleungStationId, 8);
+            addSection(lineId, yeoksamStationId, seolleungStationId, 8, 16);
 
             // when
             ExtractableResponse<Response> response = removeSection(lineId, yeoksamStationId);
@@ -386,7 +386,7 @@ class SectionAcceptanceTest {
             // given
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 20));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
@@ -409,7 +409,7 @@ class SectionAcceptanceTest {
             // given
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 10));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when
@@ -432,7 +432,7 @@ class SectionAcceptanceTest {
             // given
             Long gangnamStationId = createStationAndGetId("강남역");
             Long yeoksamStationId = createStationAndGetId("역삼역");
-            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10));
+            ExtractableResponse<Response> createLineResponse = createLine(new LineRequest("2호선", "bg-red-600", gangnamStationId, yeoksamStationId, 10, 10));
             Long lineId = createLineResponse.jsonPath().getLong("id");
 
             // when

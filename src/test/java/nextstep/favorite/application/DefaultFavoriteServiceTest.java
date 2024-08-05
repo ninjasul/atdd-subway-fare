@@ -72,8 +72,8 @@ class DefaultFavoriteServiceTest {
         Line secondLine = new Line(1L, "2호선", "green");
         Line newBundangLine = new Line(2L, "신분당선", "red");
 
-        Section yeoksam_gangnam = new Section(1L, secondLine, yeoksamStation, gangnamStation, 10);
-        Section gangnam_yangjae = new Section(2L, newBundangLine, gangnamStation, yangjaeStation, 5);
+        Section yeoksam_gangnam = new Section(1L, secondLine, yeoksamStation, gangnamStation, 10, 20);
+        Section gangnam_yangjae = new Section(2L, newBundangLine, gangnamStation, yangjaeStation, 5, 10);
 
         secondLine.addSection(yeoksam_gangnam);
         newBundangLine.addSection(gangnam_yangjae);

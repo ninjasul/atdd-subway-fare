@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import nextstep.subway.application.dto.LineRequest;
+import nextstep.subway.domain.model.PathType;
 
 @DisplayName("지하철 경로 검색")
 @ActiveProfiles("test")
@@ -46,13 +47,13 @@ class PathAcceptanceTest {
 
         잠실역 = createStationAndGetId("논현역");
 
-        신분당선 = createLineAndGetId(new LineRequest("신분당선", "red", 신논현역, 강남역, 11));
-        이호선 = createLineAndGetId(new LineRequest("2호선", "green", 교대역, 강남역, 7));
-        삼호선 = createLineAndGetId(new LineRequest("3호선", "orange", 교대역, 남부터미널역, 3));
+        신분당선 = createLineAndGetId(new LineRequest("신분당선", "red", 신논현역, 강남역, 11, 22));
+        이호선 = createLineAndGetId(new LineRequest("2호선", "green", 교대역, 강남역, 7, 14));
+        삼호선 = createLineAndGetId(new LineRequest("3호선", "orange", 교대역, 남부터미널역, 3, 6));
 
-        addSection(이호선, 강남역, 역삼역, 13);
-        addSection(삼호선, 남부터미널역, 양재역, 5);
-        addSection(신분당선, 강남역, 양재역, 10);
+        addSection(이호선, 강남역, 역삼역, 13, 26);
+        addSection(삼호선, 남부터미널역, 양재역, 5, 10);
+        addSection(신분당선, 강남역, 양재역, 10, 20);
     }
 
     /**
@@ -64,7 +65,7 @@ class PathAcceptanceTest {
     @DisplayName("같은 노선에 존재하는 두 역을 조회하는 경우 경로가 정상적으로 조회된다")
     void findPathInSameLine() {
         // when
-        ExtractableResponse<Response> response = getPaths(교대역, 역삼역);
+        ExtractableResponse<Response> response = getPaths(교대역, 역삼역, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -81,7 +82,7 @@ class PathAcceptanceTest {
     @DisplayName("출발역에서 한번 환승을 해야 도착역에 다다를 수 있는 경우 경로가 정상적으로 조회된다")
     void findPathWithOneTransfer() {
         // when
-        ExtractableResponse<Response> response = getPaths(교대역, 신논현역);
+        ExtractableResponse<Response> response = getPaths(교대역, 신논현역, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -102,7 +103,7 @@ class PathAcceptanceTest {
         Long target = 남부터미널역;
 
         // when
-        ExtractableResponse<Response> response = getPaths(source, target);
+        ExtractableResponse<Response> response = getPaths(source, target, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -119,7 +120,7 @@ class PathAcceptanceTest {
     @DisplayName("출발역과 도착역이 같은 경우 역이 하나만 조회된다.")
     void findPathWhenSourceAndTargetAreSame() {
         // given & when
-        ExtractableResponse<Response> response = getPaths(강남역, 강남역);
+        ExtractableResponse<Response> response = getPaths(강남역, 강남역, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -136,7 +137,7 @@ class PathAcceptanceTest {
     @DisplayName("출발역과 도착역이 연결이 되어 있지 않은 경우 예외가 발생한다")
     void findPathWhenSourceAndTargetAreNotConnected() {
         // given & when
-        ExtractableResponse<Response> response = getPaths(강남역, 잠실역);
+        ExtractableResponse<Response> response = getPaths(강남역, 잠실역, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -151,7 +152,7 @@ class PathAcceptanceTest {
     @DisplayName("조회하려는 출발역이 null인 경우 예외가 발생한다")
     void findPathWhenSourceStationIsNull() {
         // given & when
-        ExtractableResponse<Response> response = getPaths(null, 강남역);
+        ExtractableResponse<Response> response = getPaths(null, 강남역, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -166,7 +167,7 @@ class PathAcceptanceTest {
     @DisplayName("존재하지 않은 출발역을 조회하는 경우 예외가 발생한다")
     void findPathWhenSourceStationNotFound() {
         // given & when
-        ExtractableResponse<Response> response = getPaths(999L, 강남역);
+        ExtractableResponse<Response> response = getPaths(999L, 강남역, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -181,7 +182,7 @@ class PathAcceptanceTest {
     @DisplayName("조회하려는 출발역이 null인 경우 예외가 발생한다")
     void findPathWhenTargetStationIsNull() {
         // given & when
-        ExtractableResponse<Response> response = getPaths(강남역, null);
+        ExtractableResponse<Response> response = getPaths(강남역, null, PathType.DISTANCE);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -196,7 +197,7 @@ class PathAcceptanceTest {
     @DisplayName("존재하지 않는 도착역을 조회하는 경우 예외가 발생한다")
     void findPathWhenTargetStationNotFound() {
         // given & when
-        ExtractableResponse<Response> response = getPaths(강남역, 999L);
+        ExtractableResponse<Response> response = getPaths(강남역, 999L, PathType.DISTANCE);
 
         // then
         int statusCode = response.statusCode();
@@ -210,5 +211,9 @@ class PathAcceptanceTest {
 
     private int getResponseDistance(ExtractableResponse<Response> response) {
         return response.jsonPath().getInt("distance");
+    }
+
+    private int getResponseDuration(ExtractableResponse<Response> response) {
+        return response.jsonPath().getInt("duration");
     }
 }

@@ -10,6 +10,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import nextstep.subway.application.dto.LineRequest;
 import nextstep.subway.application.dto.SectionRequest;
+import nextstep.subway.domain.model.PathType;
 
 public class TestFixture {
 
@@ -114,8 +115,8 @@ public class TestFixture {
             .extract();
     }
 
-    public static ExtractableResponse<Response> addSection(Long lineId, Long upStationId, Long downStationId, int distance) {
-        SectionRequest request = new SectionRequest(upStationId, downStationId, distance);
+    public static ExtractableResponse<Response> addSection(Long lineId, Long upStationId, Long downStationId, int weight, int duration) {
+        SectionRequest request = new SectionRequest(null, upStationId, downStationId, weight, duration);
         return RestAssured
             .given()
             .log().all()
@@ -139,11 +140,12 @@ public class TestFixture {
             .extract();
     }
 
-    public static ExtractableResponse<Response> getPaths(Long source, Long target) {
+    public static ExtractableResponse<Response> getPaths(Long source, Long target, PathType pathType) {
         return RestAssured
             .given().log().all()
             .queryParam("source", source)
             .queryParam("target", target)
+            .queryParam("type", pathType.name())
             .accept(MediaType.APPLICATION_JSON_VALUE)
             .when()
             .get("/paths")

@@ -26,7 +26,7 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        LineRequest request = new LineRequest("2호선", "bg-red-600", 1L, 2L, 10);
+        LineRequest request = new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20);
 
         // when
         ExtractableResponse<Response> response = createLine(request);
@@ -45,7 +45,7 @@ class LineAcceptanceTest {
     void testCreateLineWithNonExistentStationId() {
         // given
         createStation("강남역");
-        LineRequest request = new LineRequest("신분당선", "bg-red-600", 999L, 2L, 10);
+        LineRequest request = new LineRequest("신분당선", "bg-red-600", 999L, 2L, 10, 20);
 
         // when
         ExtractableResponse<Response> response = createLine(request);
@@ -60,11 +60,11 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10));
+        createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20));
 
         createStation("수서역");
         createStation("가천대역");
-        createLine(new LineRequest("분당선", "bg-green-600", 3L, 4L, 20));
+        createLine(new LineRequest("분당선", "bg-green-600", 3L, 4L, 20, 40));
 
         // when
         ExtractableResponse<Response> response = getAllLines();
@@ -82,7 +82,7 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10));
+        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20));
         Long lineId = createResponse.jsonPath().getLong("id");
 
         // when
@@ -110,11 +110,11 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10));
+        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20));
         Long lineId = createResponse.jsonPath().getLong("id");
 
         // when
-        LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10);
+        LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10, 20);
         ExtractableResponse<Response> response = updateLine(lineId, updateRequest);
 
         // then
@@ -129,7 +129,7 @@ class LineAcceptanceTest {
     @Test
     void testUpdateNonExistentLine() {
         // when
-        LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10);
+        LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10, 20);
         ExtractableResponse<Response> response = updateLine(999L, updateRequest);
 
         // then
@@ -142,12 +142,12 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10));
+        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20));
         Long lineId = createResponse.jsonPath().getLong("id");
         deleteLine(lineId);
 
         // when
-        LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10);
+        LineRequest updateRequest = new LineRequest("신분당선", "bg-blue-600", 1L, 2L, 10, 20);
         ExtractableResponse<Response> response = updateLine(lineId, updateRequest);
 
         // then
@@ -160,7 +160,7 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10));
+        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20));
         Long lineId = createResponse.jsonPath().getLong("id");
 
         // when
@@ -190,7 +190,7 @@ class LineAcceptanceTest {
         // given
         createStation("강남역");
         createStation("역삼역");
-        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10));
+        ExtractableResponse<Response> createResponse = createLine(new LineRequest("2호선", "bg-red-600", 1L, 2L, 10, 20));
         Long lineId = createResponse.jsonPath().getLong("id");
 
         // when
