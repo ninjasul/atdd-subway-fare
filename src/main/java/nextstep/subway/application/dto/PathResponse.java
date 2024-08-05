@@ -30,11 +30,11 @@ public class PathResponse {
         return stations;
     }
 
-    public int getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 

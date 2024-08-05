@@ -74,6 +74,7 @@ public class SectionResponse {
             .upStationId(section.getUpStationId())
             .downStationId(section.getDownStationId())
             .distance(section.getDistance())
+            .duration(section.getDuration())
             .build();
     }
 

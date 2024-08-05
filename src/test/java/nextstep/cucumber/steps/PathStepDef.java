@@ -104,29 +104,56 @@ public class PathStepDef implements En {
 
 
         When("출발역이 null인 경로를 조회하면", () -> {
-            ExtractableResponse<Response> response = TestFixture.getPaths(null, context.store.get("강남역"),
-                PathType.DISTANCE);
+            ExtractableResponse<Response> response = TestFixture.getPaths(
+                null,
+                context.store.get("강남역"),
+                PathType.DISTANCE
+            );
             context.response = response;
         });
 
         When("출발역이 {string}인 경로를 조회하면", (String source) -> {
             Long sourceId = source.equals("null") ? null : Long.parseLong(source);
-            ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, context.store.get("강남역"),
-                PathType.DISTANCE);
+            ExtractableResponse<Response> response = TestFixture.getPaths(
+                sourceId,
+                context.store.get("강남역"),
+                PathType.DISTANCE
+            );
             context.response = response;
         });
 
         When("도착역이 null인 경로를 조회하면", () -> {
-            ExtractableResponse<Response> response = TestFixture.getPaths(context.store.get("강남역"), null,
-                PathType.DISTANCE);
+            ExtractableResponse<Response> response = TestFixture.getPaths(
+                context.store.get("강남역"),
+                null,
+                PathType.DISTANCE
+            );
             context.response = response;
         });
 
         When("도착역이 {string}인 경로를 조회하면", (String target) -> {
             Long targetId = target.equals("null") ? null : Long.parseLong(target);
-            ExtractableResponse<Response> response = TestFixture.getPaths(context.store.get("강남역"), targetId,
-                PathType.DISTANCE);
+            ExtractableResponse<Response> response = TestFixture.getPaths(
+                context.store.get("강남역"),
+                targetId,
+                PathType.DISTANCE
+            );
             context.response = response;
+        });
+
+        When("출발역에서 도착역까지의 최소 시간 기준으로 경로 조회를 요청하면", (DataTable table) -> {
+            List<Map<String, String>> params = table.asMaps(String.class, String.class);
+            for (Map<String, String> param : params) {
+                Long sourceId = context.store.get(param.get("source"));
+                Long targetId = context.store.get(param.get("target"));
+
+                if (sourceId == null || targetId == null) {
+                    throw new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE);
+                }
+
+                ExtractableResponse<Response> response = TestFixture.getPaths(sourceId, targetId, PathType.DURATION);
+                context.response = response;
+            }
         });
 
         Then("경로가 정상적으로 조회된다", () -> {
@@ -136,6 +163,11 @@ public class PathStepDef implements En {
         Then("역이 하나만 조회된다", () -> {
             assertThat(context.response.statusCode()).isEqualTo(HttpStatus.OK.value());
             assertThat(context.response.jsonPath().getList("stations.id", Long.class)).hasSize(1);
+        });
+
+        Then("최소 시간 기준으로 경로가 정상적으로 조회된다", () -> {
+            assertThat(context.response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertThat(context.response.jsonPath().getInt("duration")).isEqualTo(16);
         });
 
         Then("예외가 발생한다", () -> {
