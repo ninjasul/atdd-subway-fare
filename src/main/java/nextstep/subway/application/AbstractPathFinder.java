@@ -38,11 +38,7 @@ public abstract class AbstractPathFinder implements PathFinder {
     @Override
     public Path findPath(Station source, Station target) {
         GraphPath<Station, DefaultWeightedEdge> path;
-        try {
-            path = dijkstraShortestPath.getPath(source, target);
-        } catch (Exception e) {
-            throw new IllegalStateException(PATH_NOT_FOUND_ERROR_MESSAGE);
-        }
+        path = dijkstraShortestPath.getPath(source, target);
 
         if (path == null) {
             throw new IllegalStateException(PATH_NOT_FOUND_ERROR_MESSAGE);

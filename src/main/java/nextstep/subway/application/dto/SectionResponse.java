@@ -10,11 +10,6 @@ public class SectionResponse {
     private Integer distance;
     private Integer duration;
 
-
-    public SectionResponse() {
-    }
-
-
     public SectionResponse() {
     }
 

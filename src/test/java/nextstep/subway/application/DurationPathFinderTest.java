@@ -1,6 +1,5 @@
 package nextstep.subway.application;
 
-import static nextstep.subway.application.DistancePathFinder.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
@@ -102,8 +101,7 @@ class DurationPathFinderTest {
     void findPathWhenSourceAndTargetAreNotConnected() {
         // given & when & then
         assertThatThrownBy(() -> durationPathFinder.findPath(강남역, new Station("잠실역")))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -111,8 +109,7 @@ class DurationPathFinderTest {
     void findPathWhenSourceStationIsNull() {
         // given & when & then
         assertThatThrownBy(() -> durationPathFinder.findPath(null, 강남역))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -120,8 +117,7 @@ class DurationPathFinderTest {
     void findPathWhenSourceStationNotFound() {
         // given & when & then
         assertThatThrownBy(() -> durationPathFinder.findPath(new Station("없는역"), 강남역))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -129,8 +125,7 @@ class DurationPathFinderTest {
     void findPathWhenTargetStationIsNull() {
         // given & when & then
         assertThatThrownBy(() -> durationPathFinder.findPath(강남역, null))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -138,7 +133,6 @@ class DurationPathFinderTest {
     void findPathWhenTargetStationNotFound() {
         // given & when & then
         assertThatThrownBy(() -> durationPathFinder.findPath(강남역, new Station("없는역")))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

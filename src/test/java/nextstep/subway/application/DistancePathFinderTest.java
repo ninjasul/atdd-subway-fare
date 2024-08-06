@@ -102,8 +102,7 @@ class DistancePathFinderTest {
     void findPathWhenSourceAndTargetAreNotConnected() {
         // given & when & then
         assertThatThrownBy(() -> distancePathFinder.findPath(강남역, new Station("잠실역")))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -111,8 +110,7 @@ class DistancePathFinderTest {
     void findPathWhenSourceStationIsNull() {
         // given & when & then
         assertThatThrownBy(() -> distancePathFinder.findPath(null, 강남역))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -120,8 +118,7 @@ class DistancePathFinderTest {
     void findPathWhenSourceStationNotFound() {
         // given & when & then
         assertThatThrownBy(() -> distancePathFinder.findPath(new Station("없는역"), 강남역))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -129,8 +126,7 @@ class DistancePathFinderTest {
     void findPathWhenTargetStationIsNull() {
         // given & when & then
         assertThatThrownBy(() -> distancePathFinder.findPath(강남역, null))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -138,7 +134,6 @@ class DistancePathFinderTest {
     void findPathWhenTargetStationNotFound() {
         // given & when & then
         assertThatThrownBy(() -> distancePathFinder.findPath(강남역, new Station("없는역")))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessage(PATH_NOT_FOUND_ERROR_MESSAGE);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }
