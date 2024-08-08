@@ -201,7 +201,7 @@ public class PathStepDef implements En {
         });
 
         And("지하철 이용 요금도 함께 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(1250);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(1450);
         });
     }
 }

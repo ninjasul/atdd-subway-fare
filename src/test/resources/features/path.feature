@@ -69,3 +69,5 @@ Feature: 지하철 경로 검색
       | source | target | type     |
       | 교대역 | 양재역 | DURATION |
     Then 최소 시간 기준으로 경로가 정상적으로 조회된다
+    And 총 거리와 소요 시간을 함께 응답한다
+    And 지하철 이용 요금도 함께 응답한다
