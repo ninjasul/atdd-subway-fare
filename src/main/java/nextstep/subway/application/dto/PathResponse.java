@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import nextstep.subway.application.FareCalculator;
 import nextstep.subway.domain.model.Path;
 import nextstep.subway.domain.model.Station;
 

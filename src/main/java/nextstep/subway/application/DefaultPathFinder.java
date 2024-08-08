@@ -9,6 +9,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 
+import nextstep.subway.domain.model.FareCalculator;
 import nextstep.subway.domain.model.Line;
 import nextstep.subway.domain.model.Path;
 import nextstep.subway.domain.model.PathType;
