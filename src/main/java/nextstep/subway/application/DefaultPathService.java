@@ -30,16 +30,8 @@ public class DefaultPathService implements PathService {
         Station target = findStationOrElseThrow(targetId);
 
         List<Line> lines = lineRepository.findAll();
-        if (pathType == PathType.DISTANCE) {
-            return PathResponse.from(Path.ofDistance(lines, source, target), pathType);
-        }
-
-        return PathResponse.from(Path.ofDuration(lines, source, target), pathType);
-    }
-
-    private Station findStationOrElseThrow(Long stationId) {
-        return stationRepository.findById(stationId)
-            .orElseThrow(() -> new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE));
+        Path path = Path.of(lines, source, target, pathType);
+        return PathResponse.of(path);
     }
 
     public boolean pathExists(Long sourceId, Long targetId, PathType pathType) {
@@ -53,11 +45,15 @@ public class DefaultPathService implements PathService {
         List<Line> lines = lineRepository.findAll();
 
         try {
-            Path.ofDistance(lines, source, target);
-            return true;
+            return (Path.of(lines, source, target, pathType) != null);
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private Station findStationOrElseThrow(Long stationId) {
+        return stationRepository.findById(stationId)
+            .orElseThrow(() -> new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE));
     }
 
     private Station findStationOrElseNull(Long stationId) {

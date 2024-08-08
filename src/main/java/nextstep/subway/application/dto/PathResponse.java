@@ -38,12 +38,8 @@ public class PathResponse {
         return duration;
     }
 
-    public static PathResponse from(Path path, PathType pathType) {
-        if (pathType == PathType.DISTANCE) {
-            return new PathResponse(path.getStations(), path.getWeight(), null);
-        }
-
-        return new PathResponse(path.getStations(), null, path.getWeight());
+    public static PathResponse of(Path path) {
+        return new PathResponse(path.getStations(), path.getDistance(), path.getDuration());
     }
 }
 
