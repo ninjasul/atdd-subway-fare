@@ -10,10 +10,10 @@ Feature: 지하철 경로 검색
       | 양재역   |
       | 논현역   |
     And 지하철 노선을 생성 요청하고
-      | name     | color  | startStation | endStation | distance | duration |
-      | 신분당선 | red    | 신논현역       | 강남역     | 31       | 42        |
-      | 2호선    | green  | 교대역       | 강남역     | 24        | 28        |
-      | 3호선    | orange | 교대역       | 남부터미널역     | 10       | 20       |
+      | name     | color  | startStation | endStation | distance | duration | additionalFare |
+      | 신분당선 | red    | 신논현역       | 강남역     | 31       | 42        | 900            |
+      | 2호선    | green  | 교대역       | 강남역     | 24        | 28        | 0            |
+      | 3호선    | orange | 교대역       | 남부터미널역     | 10       | 20       | 500            |
     And 구간을 추가 요청하고
       | line     | upStation | downStation | distance | duration |
       | 2호선    | 강남역     | 역삼역      | 23       | 46              |

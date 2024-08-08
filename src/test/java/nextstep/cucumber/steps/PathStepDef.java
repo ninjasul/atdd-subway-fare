@@ -58,7 +58,8 @@ public class PathStepDef implements En {
                     startStationId,
                     endStationId,
                     Integer.parseInt(line.get("distance")),
-                    Integer.parseInt(line.get("duration"))
+                    Integer.parseInt(line.get("duration")),
+                    Integer.parseInt(line.get("additionalFare"))
                 );
                 ExtractableResponse<Response> response = TestFixture.createLine(lineRequest);
                 Long lineId = response.jsonPath().getLong("id");
@@ -201,7 +202,16 @@ public class PathStepDef implements En {
         });
 
         And("지하철 이용 요금도 함께 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(2150);
+            int expectedFare = calculateExpectedFare(context.response);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(expectedFare);
         });
+    }
+
+    private int calculateExpectedFare(ExtractableResponse<Response> response) {
+        int baseFare = response.jsonPath().getInt("baseFare");
+        int additionalFare = response.jsonPath().getInt("additionalFare");
+        int totalFare = baseFare + additionalFare;
+
+        return totalFare;
     }
 }
