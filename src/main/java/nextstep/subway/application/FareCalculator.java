@@ -1,4 +1,5 @@
-package nextstep.subway.application.dto;
+package nextstep.subway.application;
+
 public class FareCalculator {
     private static final int BASE_FARE = 1250;
     private static final int EXTRA_FARE_PER_5KM = 100;
