@@ -10,10 +10,8 @@ public class SectionResponse {
     private Integer distance;
     private Integer duration;
 
-
     public SectionResponse() {
     }
-
 
     public SectionResponse(Long lineId, Long sectionId, Long upStationId, Long downStationId, Integer distance) {
         this.lineId = lineId;

@@ -182,17 +182,26 @@ public class PathStepDef implements En {
 
         Then("최소 거리 기준으로 경로가 정상적으로 조회된다", () -> {
             assertThat(context.response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            assertThat(context.response.jsonPath().getInt("distance")).isEqualTo(8);
+            assertThat(context.response.jsonPath().getInt("distance")).isEqualTo(51);
         });
 
         Then("최소 시간 기준으로 경로가 정상적으로 조회된다", () -> {
             assertThat(context.response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            assertThat(context.response.jsonPath().getInt("duration")).isEqualTo(16);
+            assertThat(context.response.jsonPath().getInt("duration")).isEqualTo(102);
         });
 
         Then("예외가 발생한다", () -> {
             int statusCode = context.response.statusCode();
             assertThat(statusCode).isBetween(400, 599);
+        });
+
+        And("총 거리와 소요 시간을 함께 응답한다", () -> {
+            assertThat(context.response.jsonPath().getInt("distance")).isEqualTo(51);
+            assertThat(context.response.jsonPath().getInt("duration")).isEqualTo(102);
+        });
+
+        And("지하철 이용 요금도 함께 응답한다", () -> {
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(2150);
         });
     }
 }

@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import nextstep.subway.application.FareCalculator;
 import nextstep.subway.domain.model.Path;
-import nextstep.subway.domain.model.PathType;
 import nextstep.subway.domain.model.Station;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -14,6 +14,7 @@ public class PathResponse {
     private List<StationResponse> stations;
     private Integer distance;
     private Integer duration;
+    private Integer fare;
 
     public PathResponse() {
     }
@@ -24,6 +25,7 @@ public class PathResponse {
             .collect(Collectors.toList());
         this.distance = distance;
         this.duration = duration;
+        this.fare = FareCalculator.calculateFare(distance);
     }
 
     public List<StationResponse> getStations() {
@@ -38,12 +40,12 @@ public class PathResponse {
         return duration;
     }
 
-    public static PathResponse from(Path path, PathType pathType) {
-        if (pathType == PathType.DISTANCE) {
-            return new PathResponse(path.getStations(), path.getWeight(), null);
-        }
+    public Integer getFare() {
+        return fare;
+    }
 
-        return new PathResponse(path.getStations(), null, path.getWeight());
+    public static PathResponse of(Path path) {
+        return new PathResponse(path.getStations(), path.getDistance(), path.getDuration());
     }
 }
 
