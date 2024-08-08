@@ -62,8 +62,8 @@ public class DefaultPathFinder implements PathFinder {
         List<Station> stations = graphPath.getVertexList();
         int distance = calculateTotalDistance(stations);
         int duration = calculateTotalDuration(stations);
-
-        return new Path(stations, distance, duration);
+        int fare = FareCalculator.calculateFare(distance);
+        return new Path(stations, distance, duration, fare);
     }
 
     private GraphPath<Station, DefaultWeightedEdge> getStationGraphPath(

@@ -11,9 +11,6 @@ public class LineRequest {
     public LineRequest() {
     }
 
-    public LineRequest() {
-    }
-
     public LineRequest(
         String name,
         String color,
