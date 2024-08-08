@@ -8,7 +8,7 @@ public class FareCalculator {
     public static final int DISTANCE_THRESHOLD_50KM = 50;
     public static final int UNIT_DISTANCE_5KM = 5;
     public static final int UNIT_DISTANCE_8KM = 8;
-    public static final int MAX_EXTRA_FARE_10KM_TO_50KM =
+    public static final int MAX_EXTRA_FARE_11KM_TO_50KM =
         (int) Math.ceil((DISTANCE_THRESHOLD_50KM - DISTANCE_THRESHOLD_10KM) / (double) UNIT_DISTANCE_5KM) * EXTRA_FARE_PER_5KM;
 
 

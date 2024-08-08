@@ -20,7 +20,7 @@ public enum DistanceFare {
         @Override
         public int calculateFare(int distance) {
             int extraFare8km = (int) Math.ceil((distance - DISTANCE_THRESHOLD_50KM) / (double) UNIT_DISTANCE_8KM) * EXTRA_FARE_PER_8KM;
-            return BASE_FARE + MAX_EXTRA_FARE_10KM_TO_50KM + extraFare8km;
+            return BASE_FARE + MAX_EXTRA_FARE_11KM_TO_50KM + extraFare8km;
         }
     };
 
