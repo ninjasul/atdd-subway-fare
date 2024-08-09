@@ -19,11 +19,6 @@ Feature: 지하철 경로 검색
       | 2호선    | 강남역     | 역삼역      | 23       | 46              |
       | 3호선    | 남부터미널역 | 양재역     | 41       | 82                 |
       | 신분당선 | 강남역     | 양재역      | 40       | 80                |
-    And 회원가입을 요청하고
-      | email          | password | age |
-      | adult@test.com | default_password | 30  |
-      | teenager@test.com  | default_password | 18  |
-      | child@test.com | default_password | 10  |
 
   Scenario: 같은 노선에 존재하는 두 역을 조회하는 경우 경로가 정상적으로 조회된다
     When "교대역"과 "역삼역"의 경로를 조회하면
@@ -107,5 +102,5 @@ Feature: 지하철 경로 검색
   Scenario: 로그인하지 않은 사용자가 여러 노선의 추가 요금이 포함된 경로를 조회할 때 가장 높은 추가 요금이 적용된다
     When "신논현역"과 "양재역"의 경로를 조회하면
     Then 경로가 정상적으로 조회된다
-    And 총 거리와 소요 시간을 함께 응답한다
+    And 신논현역과 양재역의 총 거리와 소요 시간을 함께 응답한다
     And 가장 높은 추가 요금이 포함된 요금을 응답한다

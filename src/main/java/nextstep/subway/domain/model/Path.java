@@ -34,8 +34,17 @@ public class Path {
         return fare;
     }
 
+    public static Path of(List<Line> lines, Station source, Station target) {
+        return of(lines, source, target, PathType.DISTANCE, AgeGroup.ADULT);
+    }
+
+
     public static Path of(List<Line> lines, Station source, Station target, PathType pathType) {
+        return of(lines, source, target, pathType, AgeGroup.ADULT);
+    }
+
+    public static Path of(List<Line> lines, Station source, Station target, PathType pathType, AgeGroup ageGroup) {
         PathFinder pathFinder = new DefaultPathFinder(lines);
-        return pathFinder.findPath(source, target, pathType);
+        return pathFinder.findPath(lines, source, target, pathType, ageGroup);
     }
 }

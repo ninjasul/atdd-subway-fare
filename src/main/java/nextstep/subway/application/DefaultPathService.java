@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import nextstep.subway.application.dto.PathResponse;
+import nextstep.subway.domain.model.AgeGroup;
 import nextstep.subway.domain.model.Line;
 import nextstep.subway.domain.model.Path;
 import nextstep.subway.domain.model.PathType;
@@ -25,16 +26,18 @@ public class DefaultPathService implements PathService {
         this.lineRepository = lineRepository;
     }
 
-    public PathResponse findPath(Long sourceId, Long targetId, PathType pathType) {
+    @Override
+    public PathResponse findPath(Long sourceId, Long targetId, PathType pathType, AgeGroup ageGroup) {
         Station source = findStationOrElseThrow(sourceId);
         Station target = findStationOrElseThrow(targetId);
 
         List<Line> lines = lineRepository.findAll();
-        Path path = Path.of(lines, source, target, pathType);
+        Path path = Path.of(lines, source, target, pathType, ageGroup);
         return PathResponse.of(path);
     }
 
-    public boolean pathExists(Long sourceId, Long targetId, PathType pathType) {
+    @Override
+    public boolean pathExists(Long sourceId, Long targetId) {
         Station source = findStationOrElseNull(sourceId);
         Station target = findStationOrElseNull(targetId);
 
@@ -45,7 +48,7 @@ public class DefaultPathService implements PathService {
         List<Line> lines = lineRepository.findAll();
 
         try {
-            return (Path.of(lines, source, target, pathType) != null);
+            return (Path.of(lines, source, target) != null);
         } catch (Exception e) {
             return false;
         }

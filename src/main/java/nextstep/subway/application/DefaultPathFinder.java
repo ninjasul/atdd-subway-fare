@@ -9,6 +9,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 
+import nextstep.subway.domain.model.AgeGroup;
 import nextstep.subway.domain.model.FareCalculator;
 import nextstep.subway.domain.model.Line;
 import nextstep.subway.domain.model.Path;
@@ -52,7 +53,7 @@ public class DefaultPathFinder implements PathFinder {
     }
 
     @Override
-    public Path findPath(Station source, Station target, PathType pathType) {
+    public Path findPath(List<Line> lines, Station source, Station target, PathType pathType, AgeGroup ageGroup) {
         GraphPath<Station, DefaultWeightedEdge> graphPath;
         graphPath = getStationGraphPath(source, target, pathType);
 
@@ -63,7 +64,7 @@ public class DefaultPathFinder implements PathFinder {
         List<Station> stations = graphPath.getVertexList();
         int distance = calculateTotalDistance(stations);
         int duration = calculateTotalDuration(stations);
-        int fare = FareCalculator.calculateFare(distance);
+        int fare = FareCalculator.calculateFare(distance, lines, ageGroup);
         return new Path(stations, distance, duration, fare);
     }
 

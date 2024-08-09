@@ -1,14 +1,15 @@
 package nextstep.subway.domain.service;
 
 import nextstep.subway.application.dto.PathResponse;
+import nextstep.subway.domain.model.AgeGroup;
 import nextstep.subway.domain.model.PathType;
 
 public interface PathService {
-    default boolean pathExists(Long sourceId, Long targetId) {
-        return pathExists(sourceId, targetId, PathType.DISTANCE);
+    boolean pathExists(Long sourceId, Long targetId);
+
+    default PathResponse findPath(Long sourceId, Long targetId, PathType pathType) {
+        return findPath(sourceId, targetId, pathType, AgeGroup.ADULT);
     }
 
-    boolean pathExists(Long sourceId, Long targetId, PathType pathType);
-
-    PathResponse findPath(Long sourceId, Long targetId, PathType pathType);
+    PathResponse findPath(Long sourceId, Long targetId, PathType pathType, AgeGroup ageGroup);
 }

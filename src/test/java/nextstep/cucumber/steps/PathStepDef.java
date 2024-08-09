@@ -1,6 +1,5 @@
 package nextstep.cucumber.steps;
 
-import static nextstep.member.acceptance.MemberSteps.*;
 import static nextstep.subway.application.DefaultLineCommandService.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -224,33 +223,29 @@ public class PathStepDef implements En {
             assertThat(context.response.jsonPath().getInt("duration")).isEqualTo(102);
         });
 
+        Then("신논현역과 양재역의 총 거리와 소요 시간을 함께 응답한다", () -> {
+            assertThat(context.response.jsonPath().getInt("distance")).isEqualTo(71);
+            assertThat(context.response.jsonPath().getInt("duration")).isEqualTo(122);
+        });
+
         And("지하철 이용 요금도 함께 응답한다", () -> {
-            int expectedFare = calculateExpectedFare(context.response);
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(expectedFare);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
         });
 
         Then("어린이 할인 요금이 적용된 경로 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(100);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
         });
 
         Then("청소년 할인 요금이 적용된 경로 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(100);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
         });
 
         Then("추가 요금이 포함된 기본 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(100);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
         });
 
         Then("가장 높은 추가 요금이 포함된 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(100);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3250);
         });
-    }
-
-    private int calculateExpectedFare(ExtractableResponse<Response> response) {
-        int baseFare = response.jsonPath().getInt("baseFare");
-        int additionalFare = response.jsonPath().getInt("additionalFare");
-        int totalFare = baseFare + additionalFare;
-
-        return totalFare;
     }
 }
