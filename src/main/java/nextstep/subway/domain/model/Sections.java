@@ -221,14 +221,8 @@ public class Sections {
         return sections.get(index);
     }
 
-    public boolean containsAnyStationIn(List<Station> stations) {
-        Set<Station> sectionStations = getStationSet();
-        return stations.stream().anyMatch(sectionStations::contains);
-    }
-
-    private Set<Station> getStationSet() {
+    public boolean hasSection(Station upStation, Station downStation) {
         return sections.stream()
-            .flatMap(section -> Stream.of(section.getUpStation(), section.getDownStation()))
-            .collect(Collectors.toSet());
+            .anyMatch(section -> section.hasSameUpStationWith(upStation) && section.hasSameDownStationWith(downStation));
     }
 }

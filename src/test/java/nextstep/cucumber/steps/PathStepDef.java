@@ -1,6 +1,7 @@
 package nextstep.cucumber.steps;
 
 import static nextstep.subway.application.DefaultLineCommandService.*;
+import static nextstep.subway.domain.model.FareCalculator.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
@@ -244,19 +245,23 @@ public class PathStepDef implements En {
         });
 
         And("지하철 이용 요금도 함께 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(2650);
+        });
+
+        Then("유아 할인 요금이 적용된 경로 요금을 응답한다", () -> {
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(0);
         });
 
         Then("어린이 할인 요금이 적용된 경로 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(1350);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(1150);
         });
 
         Then("청소년 할인 요금이 적용된 경로 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(2160);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(1840);
         });
 
         Then("추가 요금이 포함된 기본 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(2650);
         });
 
         Then("가장 높은 추가 요금이 포함된 요금을 응답한다", () -> {

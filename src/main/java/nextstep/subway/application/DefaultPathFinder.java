@@ -4,6 +4,7 @@ package nextstep.subway.application;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -70,9 +71,17 @@ public class DefaultPathFinder implements PathFinder {
     }
 
     private List<Line> getRelevantLines(List<Line> lines, List<Station> stations) {
-        return lines.stream()
-            .filter(line -> line.containsAnyStationIn(stations))
+        return IntStream.range(0, stations.size() - 1)
+            .boxed()
+            .flatMap(i -> getRelevantLine(lines, stations, i))
+            .distinct()
             .collect(Collectors.toList());
+    }
+
+    private static Stream<Line> getRelevantLine(List<Line> lines, List<Station> stations, Integer i) {
+        return lines
+            .stream()
+            .filter(line -> line.hasSection(stations.get(i), stations.get(i + 1)));
     }
 
     private GraphPath<Station, DefaultWeightedEdge> getStationGraphPath(

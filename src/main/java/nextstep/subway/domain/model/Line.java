@@ -117,8 +117,8 @@ public class Line {
         return sections.getOrderedUnmodifiableStations();
     }
 
-    public boolean containsAnyStationIn(List<Station> stations) {
-        return sections.containsAnyStationIn(stations);
+    public boolean hasSection(Station upStation, Station downStation) {
+        return sections.hasSection(upStation, downStation);
     }
 
     @Override
