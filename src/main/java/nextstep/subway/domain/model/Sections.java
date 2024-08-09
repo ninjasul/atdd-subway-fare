@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -216,5 +219,16 @@ public class Sections {
         }
 
         return sections.get(index);
+    }
+
+    public boolean containsAnyStationIn(List<Station> stations) {
+        Set<Station> sectionStations = getStationSet();
+        return stations.stream().anyMatch(sectionStations::contains);
+    }
+
+    private Set<Station> getStationSet() {
+        return sections.stream()
+            .flatMap(section -> Stream.of(section.getUpStation(), section.getDownStation()))
+            .collect(Collectors.toSet());
     }
 }

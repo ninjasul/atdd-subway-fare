@@ -117,6 +117,10 @@ public class Line {
         return sections.getOrderedUnmodifiableStations();
     }
 
+    public boolean containsAnyStationIn(List<Station> stations) {
+        return sections.containsAnyStationIn(stations);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

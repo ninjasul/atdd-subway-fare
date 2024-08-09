@@ -2,6 +2,7 @@
 package nextstep.subway.application;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.jgrapht.GraphPath;
@@ -64,8 +65,14 @@ public class DefaultPathFinder implements PathFinder {
         List<Station> stations = graphPath.getVertexList();
         int distance = calculateTotalDistance(stations);
         int duration = calculateTotalDuration(stations);
-        int fare = FareCalculator.calculateFare(distance, lines, ageGroup);
+        int fare = FareCalculator.calculateFare(distance, getRelevantLines(lines, stations), ageGroup);
         return new Path(stations, distance, duration, fare);
+    }
+
+    private List<Line> getRelevantLines(List<Line> lines, List<Station> stations) {
+        return lines.stream()
+            .filter(line -> line.containsAnyStationIn(stations))
+            .collect(Collectors.toList());
     }
 
     private GraphPath<Station, DefaultWeightedEdge> getStationGraphPath(

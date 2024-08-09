@@ -1,6 +1,7 @@
 package nextstep.subway.domain.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import nextstep.subway.application.DefaultPathFinder;
 import nextstep.subway.domain.service.PathFinder;

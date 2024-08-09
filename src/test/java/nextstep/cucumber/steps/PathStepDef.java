@@ -128,7 +128,7 @@ public class PathStepDef implements En {
             context.response = response;
         });
 
-        When("로그인 사용자 {string}가 {string}과 {string}의 경로를 조회하면", (String email, String startStation, String endStation) -> {
+        When("로그인 사용자 {string}가 {string}과 {string}의 경로를 거리 기준으로 조회하면", (String email, String startStation, String endStation) -> {
             Long startStationId = context.store.get(startStation);
             Long endStationId = context.store.get(endStation);
 
