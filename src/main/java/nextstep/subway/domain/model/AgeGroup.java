@@ -5,6 +5,7 @@ import java.util.Arrays;
 import nextstep.member.domain.Member;
 
 public enum AgeGroup {
+    BABY(0, 6, 1.0, 0),
     CHILD(6, 13, 0.5, 350),
     TEENAGER(13, 19, 0.2, 350),
     ADULT(19, Integer.MAX_VALUE, 0.0, 0),
@@ -46,6 +47,10 @@ public enum AgeGroup {
     }
 
     public int calculateFare(int originalFare) {
+        if (this == BABY) {
+            return 0;
+        }
+
         if (this == ADULT) {
             return originalFare;
         }
