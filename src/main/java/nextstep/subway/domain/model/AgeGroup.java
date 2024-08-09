@@ -2,6 +2,8 @@ package nextstep.subway.domain.model;
 
 import java.util.Arrays;
 
+import nextstep.member.domain.Member;
+
 public enum AgeGroup {
     CHILD(6, 13, 0.5, 350),
     TEENAGER(13, 19, 0.2, 350),
@@ -25,6 +27,14 @@ public enum AgeGroup {
             .filter(ageGroup -> age >= ageGroup.minAge && age < ageGroup.maxAge)
             .findFirst()
             .orElse(ADULT);
+    }
+
+    public static AgeGroup from(Member member) {
+        if (member == null) {
+            return ADULT;
+        }
+
+        return from(member.getAge());
     }
 
     public double getDiscountRate() {

@@ -73,10 +73,13 @@ Feature: 지하철 경로 검색
     And 지하철 이용 요금도 함께 응답한다
 
   Scenario: 로그인한 사용자가 경로를 조회할 때 할인된 요금이 적용된다
+    Given 회원가입을 요청하고
+      | email           |  password        | age  |
+      | child@test.com  | default_password | 9    |
     Given 로그인 요청을 하고
-      | email          | password |
-      | child@test.com | default_password |
-    When "교대역"과 "양재역"의 경로를 조회하면
+      | email           | password          |
+      | child@test.com  | default_password  |
+    When 로그인 사용자 "child@test.com"가 "교대역"과 "양재역"의 경로를 조회하면
     Then 경로가 정상적으로 조회된다
     And 총 거리와 소요 시간을 함께 응답한다
     And 어린이 할인 요금이 적용된 경로 요금을 응답한다
@@ -88,7 +91,7 @@ Feature: 지하철 경로 검색
     And 로그인 요청을 하고
       | email           | password         |
       | teen@test.com   | default_password |
-    When "교대역"과 "양재역"의 경로를 조회하면
+    When 로그인 사용자 "teen@test.com"가 "교대역"과 "양재역"의 경로를 조회하면
     Then 경로가 정상적으로 조회된다
     And 총 거리와 소요 시간을 함께 응답한다
     And 청소년 할인 요금이 적용된 경로 요금을 응답한다

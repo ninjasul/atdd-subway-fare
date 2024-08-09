@@ -109,6 +109,9 @@ public class PathStepDef implements En {
             for (Map<String, String> user : users) {
                 TokenRequest tokenRequest = TokenRequest.ofEmailAndPassword(user.get("email"), user.get("password"));
                 ExtractableResponse<Response> response = AuthSteps.로그인_요청(tokenRequest);
+
+                String accessToken = response.jsonPath().getString("accessToken");
+                context.tokenStore.put(user.get("email"), accessToken);
             }
         });
 
@@ -125,6 +128,18 @@ public class PathStepDef implements En {
             context.response = response;
         });
 
+        When("로그인 사용자 {string}가 {string}과 {string}의 경로를 조회하면", (String email, String startStation, String endStation) -> {
+            Long startStationId = context.store.get(startStation);
+            Long endStationId = context.store.get(endStation);
+
+            if (startStationId == null || endStationId == null) {
+                throw new IllegalArgumentException(STATION_NOT_FOUND_MESSAGE);
+            }
+
+            String accessToken = context.tokenStore.get(email);
+            ExtractableResponse<Response> response = TestFixture.getPaths(startStationId, endStationId, PathType.DISTANCE, accessToken);
+            context.response = response;
+        });
 
         When("출발역이 null인 경로를 조회하면", () -> {
             ExtractableResponse<Response> response = TestFixture.getPaths(
@@ -233,11 +248,11 @@ public class PathStepDef implements En {
         });
 
         Then("어린이 할인 요금이 적용된 경로 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(1350);
         });
 
         Then("청소년 할인 요금이 적용된 경로 요금을 응답한다", () -> {
-            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(3050);
+            assertThat(context.response.jsonPath().getInt("fare")).isEqualTo(2160);
         });
 
         Then("추가 요금이 포함된 기본 요금을 응답한다", () -> {
